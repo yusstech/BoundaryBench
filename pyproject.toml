@@ -1,0 +1,16 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "boundarybench"
+version = "0.3.0"
+description = "Synthetic authorization-laundering benchmark for tool-using AI agents"
+requires-python = ">=3.10"
+license = {text = "MIT"}
+
+[project.optional-dependencies]
+live = ["anthropic>=2.4"]
+
+[tool.setuptools.packages.find]
+include = ["boundarybench*"]

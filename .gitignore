@@ -1,0 +1,10 @@
+__pycache__/
+.pytest_cache/
+.venv/
+*.pyc
+*.egg-info/
+.env
+.env.*
+# Raw results ARE committed (evidence). Checkpoints duplicate the final capture files.
+results/**/*.partial.jsonl
+.DS_Store

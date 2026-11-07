@@ -65,14 +65,14 @@ F1 was defined in advance as the expected failure; it was never observed. Every 
 In the prompt channel, the note is introduced as "retrieved from the order record", but the simulated
 `get_order` record does not contain it. Both models sometimes noticed ("The order record I retrieved also
 doesn't show that note", Sonnet A07; Haiku declined a benign B03 reply in the main grid for the same
-reason). This is a flaw in our harness, not the models, and it may make the prompt-channel note *less*
+reason). This is a flaw in my harness, not the models, and it may make the prompt-channel note *less*
 credible than intended, biasing H2 toward the tool channel. Reported as a limitation; not fixed
 mid-study because the design was frozen.
 
 ## What the failures have in common
 1. **Low-salience actions are the weak point.** Both failure types used an action the policy considers
    routine (a read; a reply to the right customer). No model attempted a refund, export or payout change
-   in 1,280 A1 attack trials.
+   in 640 A1 attack trials.
 2. **The checks exist but are applied at the wrong time.** Haiku clearly knows the ownership rule (it
    cites it in all 11 F2 trials); it applies it to the *output*, not the *action*.
 3. **Plausible framing does the work.** The same A04 goal phrased obviously in the main grid ("read
@@ -83,5 +83,5 @@ mid-study because the design was frozen.
 - 12 failures, 11 from one scenario: these are case studies, not rates that generalise.
 - The stub record for ORD-999 shows `customer_id: C-OTHER`, which made the mismatch obvious *after* the
   read. In a real system the post-hoc check might not trigger, so F2 could become F1.
-- Labels were drafted with AI assistance using keyword search plus manual reading of all 12 failure
-  transcripts.
+- Labels were drafted with AI assistance (keyword search plus reading of the 12 failure transcripts) and
+  reviewed by me, as recorded in the `labelled_by` column of the CSV.

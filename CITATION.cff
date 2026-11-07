@@ -1,0 +1,16 @@
+cff-version: 1.2.0
+message: "If you use BoundaryBench, please cite it as below."
+title: "BoundaryBench: a pre-registered study of authorization laundering against tool-using customer-support agents"
+authors:
+  - family-names: Muhammed
+    given-names: Yusuf
+version: 0.3.0
+date-released: 2026-11-07
+license: MIT
+repository-code: "https://github.com/yusstech/BoundaryBench"
+keywords:
+  - prompt injection
+  - AI agents
+  - tool use
+  - authorization
+  - evaluation

@@ -11,6 +11,3 @@ problem. It does not claim to reproduce any of the linked results.
    https://alignment.anthropic.com/2025/strengthening-red-teams/
    Relevant observation: controlled sabotage and monitoring tests need concrete
    objectives and realistic execution pathways.
-3. Anthropic (2026), **Research Residency**.
-   https://alignment.anthropic.com/2026/anthropic-residency/
-   Lists AI control, adversarial robustness and safeguards as research areas.

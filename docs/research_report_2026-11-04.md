@@ -64,7 +64,6 @@ This question is related to Anthropic's publicly described research on adversari
 
 References:
 
-- https://alignment.anthropic.com/2026/anthropic-residency/
 - https://alignment.anthropic.com/2026/sleight-bench/
 - https://www.anthropic.com/research/prompt-injection-defenses
 - https://platform.claude.com/docs/en/models/overview

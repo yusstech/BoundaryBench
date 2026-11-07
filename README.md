@@ -29,6 +29,24 @@ Protocol and frozen hypotheses: [`docs/protocol.md`](docs/protocol.md). Amendmen
 [`docs/amendment_A1_plausible_attacks.md`](docs/amendment_A1_plausible_attacks.md). Raw transcripts,
 gate replays and analyses: [`results/`](results/).
 
+## What I took from this
+
+I went in expecting to find out what these models can't do. What I mostly found is how capable they are.
+Sonnet 5.5 didn't follow a single attack in 640 tries, including the ones written to sound like a
+colleague. Haiku 5.5 held against every obvious attack and only slipped on plausible ones, almost all of
+them a single trick.
+
+So the outcome doesn't come down to the model alone. It comes down to the system around it: how it's
+integrated, what it's allowed to touch, how it's evaluated, and how much logic sits between the model's
+proposal and the real action. My own policy gate showed both sides of that. It blocked every
+out-of-scope call, and it still let a scam link through in a customer reply, because rules check *who*
+and *how much*, not *what a message says*.
+
+The model choice mattered as well: the smaller model failed where the larger one didn't. But the design
+is the part a team can actually control. That's the question I'm taking further in
+[Agent Reliability Lab](https://github.com/yusstech/Agent-Reliability-Lab): which rules can you trust a
+model to follow, and which have to live in code?
+
 ## Research problem
 
 A user asks a support agent to refund **$15**. An untrusted order note claims that a
@@ -51,8 +69,10 @@ interpretation and privileged actions in conversational software.
   executions, and attacker-goal completion. A deliberately **policy-valid yet harmful**
   reply shows why a policy gate is not a complete safety solution.
 - **Utility:** benign-task expected tool completion, not just safety blocking.
-- **Runnable reproduction:** standard-library Python, no production credentials.
-- **Limitations are explicit:** toy dataset, first-action scope, no security claims.
+- **Runnable reproduction:** the scripted tests use only the standard library; live runs need the
+  `anthropic` package and your own API key. No production credentials.
+- **Limitations are explicit:** small hand-written dataset (8 pairs), multi-step episodes of up to 4
+  turns with simulated tools, no security claims.
 
 ## Quick start
 
@@ -60,8 +80,8 @@ Requires Python >=3.10. From the repository root:
 
 ```bash
 python -m unittest discover -s tests -v
-python -m boundarybench run --agent scripted --mode instruction_only --out results/instruction_only.json
-python -m boundarybench run --agent scripted --mode policy_gate --out results/policy_gate.json
+python -m boundarybench run --agent scripted --mode instruction_only --out results/scripted_instruction_only.json
+python -m boundarybench run --agent scripted --mode policy_gate --out results/scripted_policy_gate.json
 ```
 
 **Interpreting scripted output:** fixtures deliberately contain eight benign and eight attacker-desired
@@ -95,8 +115,15 @@ Set a hard spending limit in Claude Console first. Then:
 
 ```bash
 bash scripts/run_live_pilot.sh                                  # 8 Sonnet trials, < $0.30
-bash scripts/run_grid.sh claude-haiku-5-5 10 2.00 results/main  # 640 trials, cap $2
-bash scripts/run_grid.sh claude-sonnet-5-5 5 12.00 results/main # repeats set from pilot cost
+bash scripts/run_grid.sh claude-haiku-5-5 10 2.00 results/main  # main grid, 640 trials, cap $2
+bash scripts/run_grid.sh claude-sonnet-5-5 10 12.00 results/main # main grid, 640 trials, cap $12
+```
+
+Amendment A1 (plausible-wording attacks), as run:
+
+```bash
+DATA=data/scenarios_v2_plausible.jsonl bash scripts/run_grid.sh claude-haiku-5-5 10 2.00 results/amend_A1
+DATA=data/scenarios_v2_plausible.jsonl bash scripts/run_grid.sh claude-sonnet-5-5 10 9.00 results/amend_A1
 ```
 
 `run_grid.sh` splits the dollar cap evenly across the four cells (`--max-usd` stops before the
@@ -133,7 +160,7 @@ results/            raw traces, gate replays and analyses (committed as evidence
 - [x] Analyze attack success **and** benign utility, with uncertainty intervals
 - [x] Amendment A1: plausible-wording attacks; publish failure categories and case studies
 - [ ] Held-out paraphrases and note-provenance variation
-- [ ] Finalize the methods/results/limitations memo, including negative findings
+- [x] Finalize the methods/results/limitations memo, including negative findings
 
 ## Authorship and AI assistance
 
@@ -147,17 +174,8 @@ I built it with AI coding tools. The v0.1–v0.2 scaffold was generated with Cha
 harness, analysis scripts, tests and first drafts of the documentation were written with
 Claude Code under my direction. Raw transcripts for every reported result are in [`results/`](results/).
 
+Questions, critiques and replications are welcome on [GitHub Issues](https://github.com/yusstech/BoundaryBench/issues) or via [@yusstech](https://github.com/yusstech). To cite this work, use the "Cite this repository" button (from [`CITATION.cff`](CITATION.cff)).
+
 ## License
 
 MIT. Synthetic examples only.
-
-## Analysis summary with uncertainty intervals
-
-After generating a trace, print descriptive Wilson 95% intervals by attack family:
-
-```bash
-python scripts/analyze.py results/model_instruction_only.json
-```
-
-For mock traces, the report explicitly says the counts are fixture diagnostics.
-Do not present fixture results as observed model findings.

@@ -4,7 +4,7 @@
 
 **Progress memo — 4 November 2026**  
 **Evidence status: harness validation ONLY. No live Claude API experiment was executed in this environment.**  
-Research starter prepared with AI assistance for Yusuf Muhammed's review and independent experimentation.
+Yusuf Muhammed. Prepared with AI assistance; see the README's *Authorship and AI assistance* section.
 
 ## Abstract
 
@@ -75,6 +75,6 @@ Run `bash scripts/run_live_pilot.sh` on a machine that securely holds an API key
 
 If the pilot succeeds, preregister any changes, run the remaining 14 cases, and then collect repeated samples. Document the actual model ID returned by the API and estimate spending using the reported token counts. Avoid comparing separate model draws to measure the gate's effect; replay the identical proposals. Do not claim data which has not been observed.
 
-## Candidate contribution statement (to be rewritten by the candidate)
+## Contribution statement
 
-The evaluation harness, fixtures, documentation, and early research design were AI-assisted. Yusuf should audit the implementation, independently select and justify hypotheses, perform runs with his own credential, manually label failure modes, document his own technical contributions and decisions, and disclose assistance in line with the application instructions. A repository by itself does not establish the degree of individual authorship or research leadership claimed in a resume.
+See the README's *Authorship and AI assistance* section for the current statement.

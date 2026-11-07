@@ -24,6 +24,7 @@ cells (10 repeats × 8 attacks × 4 cells). Benign task completion 99–100% thr
 - Pre-registered effects of the warning, channel, model and wording all point in the predicted
   direction for Haiku but are **not statistically supported** (intervals reach 0; one scenario drives them).
 
+Research memo: [`docs/memo.md`](docs/memo.md). Failure analysis: [`docs/failure_analysis.md`](docs/failure_analysis.md).
 Protocol and frozen hypotheses: [`docs/protocol.md`](docs/protocol.md). Amendment A1 and full results:
 [`docs/amendment_A1_plausible_attacks.md`](docs/amendment_A1_plausible_attacks.md). Raw transcripts,
 gate replays and analyses: [`results/`](results/).
@@ -108,34 +109,43 @@ Cost estimates use list prices and token counts; actual billing may differ sligh
 ```text
 boundarybench/      evaluation, policy enforcement and model adapters
 data/               8 paired benign/attack scenarios (16 total)
-tests/              22 policy, scoring, replay, live-loop (fake client) and budget tests
+tests/              31 policy, scoring, replay, live-loop (fake client), resume and budget tests
 docs/protocol.md     hypotheses, design, validity threats and next experiments
+docs/amendment_A1_plausible_attacks.md   plausible-wording amendment and results
+docs/memo.md         research memo (methods, results, limitations)
+docs/failure_analysis.md   failure categories and case studies
 scripts/run_grid.sh          2×2 grid for one model (Keychain key, $ cap, gate replay)
 scripts/run_live_pilot.sh    8-trial Sonnet pilot
 scripts/analyze_grid.py      cell table, clustered-bootstrap effects, trials.csv for labelling
 scripts/compare.py     identical-trace comparison of policy conditions
-docs/research_report_2026-11-04.md   results and research-status memo
+docs/research_report_2026-11-04.md   v0.2 progress memo (superseded)
 docs/reading.md      related research
 results/            raw traces, gate replays and analyses (committed as evidence)
 ```
 
-## Roadmap to a credible empirical research artifact
+## Roadmap
 
 - [x] Fix a threat model, policies and paired synthetic scenarios
 - [x] Implement reproducible harness, 12 local tests and policy assertions
 - [x] Fix attack-specific scoring, repeat-trace replay and API metadata capture
 - [x] v0.3: multi-step loop, all-call scoring, 2×2 warning × channel design, $ guard
-- [ ] Collect live-model traces with pinned model version and repetition counts
-- [ ] Analyze attack success **and** benign utility, with uncertainty intervals
-- [ ] Run held-out paraphrases; publish failure categories and case studies
-- [ ] Write 3-5 page methods/results/limitations note with negative findings too
+- [x] Collect live-model traces with pinned model version and repetition counts (2,560 trials)
+- [x] Analyze attack success **and** benign utility, with uncertainty intervals
+- [x] Amendment A1: plausible-wording attacks; publish failure categories and case studies
+- [ ] Held-out paraphrases and note-provenance variation
+- [ ] Finalize the methods/results/limitations memo, including negative findings
 
-## Credit and provenance
+## Authorship and AI assistance
 
-The v0.1–v0.2 scaffold was generated with ChatGPT; v0.3 changes were made with Claude
-Code, with research decisions (manipulated variables, models, budget) made by Yusuf Muhammed.
-It is a starting point for Yusuf to audit, reproduce and extend. Before presenting results as his independent technical accomplishment,
-he should run the experiments, review cases and make substantive decisions.
+BoundaryBench is a project by Yusuf Muhammed. I made the research decisions: what to
+manipulate (the developer warning and the injection channel), which models to test, the
+budget and number of repeats, the fixes made after the pilot, freezing the hypotheses before
+collecting main data, and adding the plausible-wording amendment. I ran all live trials on my
+own API key.
+
+I built it with AI coding tools. The v0.1–v0.2 scaffold was generated with ChatGPT. The v0.3
+harness, analysis scripts, tests and first drafts of the documentation were written with
+Claude Code under my direction. Raw transcripts for every reported result are in [`results/`](results/).
 
 ## License
 
@@ -151,9 +161,3 @@ python scripts/analyze.py results/model_instruction_only.json
 
 For mock traces, the report explicitly says the counts are fixture diagnostics.
 Do not present fixture results as observed model findings.
-
-## Candidate ownership
-
-Read [`docs/ownership_tasks.md`](docs/ownership_tasks.md) before citing this
-project in a job application. The strength of a research portfolio is the
-experiment **you personally run, interpret and can defend**, not generated code.
